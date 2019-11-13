@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "29315850530",
+    "firebase_url": "https://fir-shop-b3db7.firebaseio.com",
+    "project_id": "fir-shop-b3db7",
+    "storage_bucket": "fir-shop-b3db7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:29315850530:android:53d57b71955849d7f6c57b",
+        "android_client_info": {
+          "package_name": "com.stephen.shop"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "29315850530-7k71os709nqfalqbus6nhns174eef3i9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stephen.shop",
+            "certificate_hash": "5668a2fa5d76b3f4aac1d32a3ff0c69f1903bc69"
+          }
+        },
+        {
+          "client_id": "29315850530-kh2a5v8jlf2f7eh81p3kbkhjgl7pgtol.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBJoCWduESWzdHFs7N5EPDMvU4KGQUhnQc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "29315850530-kh2a5v8jlf2f7eh81p3kbkhjgl7pgtol.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
