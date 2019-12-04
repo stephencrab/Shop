@@ -3,6 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.stephen.shop.MainActivity">
     <item
+        android:id="@+id/action_signin"
+        android:title="@string/common_signin_button_text" />
+    <item
+        android:id="@+id/action_signout"
+        android:title="Sign out" />
+    <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
         android:title="@string/action_settings"

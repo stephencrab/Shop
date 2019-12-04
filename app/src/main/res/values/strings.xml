@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Shop</string>
     <string name="action_settings">Settings</string>
+
+    <string name="facebook_application_id">553648555451336</string>
+    <string name="facebook_login_protocol_scheme">fb553648555451336</string>
+
 </resources>
