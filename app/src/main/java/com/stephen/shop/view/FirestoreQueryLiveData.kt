@@ -13,17 +13,16 @@ class FirestoreQueryLiveData : LiveData<List<Item>>(), EventListener<QuerySnapsh
         .orderBy("viewCount", Query.Direction.DESCENDING)
         .limit(10)
 
-
     override fun onActive() {
-        super.onActive()
         registration = query.addSnapshotListener(this)
         isRegistered = true
     }
 
     override fun onInactive() {
-        super.onInactive()
-        registration.remove()
-        isRegistered = false
+        if (isRegistered) {
+            registration.remove()
+            isRegistered = false
+        }
     }
 
     override fun onEvent(querySnapshot: QuerySnapshot?, exception: FirebaseFirestoreException?) {

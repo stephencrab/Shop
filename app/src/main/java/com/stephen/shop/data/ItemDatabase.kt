@@ -8,7 +8,7 @@ import com.stephen.shop.model.Item
 
 @Database(entities = [Item::class], version = 1)
 abstract class ItemDatabase: RoomDatabase() {
-    abstract fun getItemDAO(): ItemDao
+    abstract fun getItemDao(): ItemDao
 
     companion object {
         private lateinit var context: Context

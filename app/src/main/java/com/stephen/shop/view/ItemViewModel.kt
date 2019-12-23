@@ -1,18 +1,26 @@
 package com.stephen.shop.view
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.stephen.shop.data.ItemRepository
 import com.stephen.shop.model.Item
 
-class ItemViewModel : ViewModel() {
-    private var items = MutableLiveData<List<Item>>()
-    private var firestoreQueryLiveData = FirestoreQueryLiveData()
+class ItemViewModel(application: Application) : AndroidViewModel(application) {
 
-    fun getItems() : FirestoreQueryLiveData {
-        return firestoreQueryLiveData
+    private lateinit var itemRepository: ItemRepository
+
+    init {
+        itemRepository = ItemRepository(application)
+    }
+
+    fun getItems() : LiveData<List<Item>> {
+        return itemRepository.getAllItems()
     }
 
     fun setCategory(categoryId: String) {
-        firestoreQueryLiveData.setCategory(categoryId)
+        itemRepository.setCategory(categoryId)
     }
 }

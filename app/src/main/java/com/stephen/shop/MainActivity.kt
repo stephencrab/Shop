@@ -28,11 +28,9 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
     private val SI_REQUEST_CODE = 100
     private val TAG = MainActivity::class.java.simpleName
-//    private lateinit var adapter: FirestoreRecyclerAdapter<Item, ItemHolder>
     var categories = mutableListOf<Category>()
     private lateinit var adapter: ItemAdapter
     lateinit var itemViewModel: ItemViewModel
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,10 +75,8 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
                             override fun onItemSelected(parent: AdapterView<*>?,
                                 view: View?, position: Int, id: Long) {
-//                                setupAdapter()
                                 itemViewModel.setCategory(categories.get(position).id)
                             }
-
                         }
                     }
                 }
@@ -97,7 +93,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
             adapter.items = it
             adapter.notifyDataSetChanged()
         })
-//        setupAdapter()
     }
 
     inner class ItemAdapter(var items: List<Item>) : RecyclerView.Adapter<ItemHolder>() {
@@ -121,48 +116,6 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
 
     }
 
-    /*private fun setupAdapter() {
-        val selected = spinner.selectedItemPosition
-        var query = if (selected >0) {
-            adapter.stopListening()
-            FirebaseFirestore.getInstance()
-                .collection("items")
-                .whereEqualTo("category", categories.get(selected).id)
-                .orderBy("viewCount", Query.Direction.DESCENDING)
-                .limit(10)
-        } else {
-            FirebaseFirestore.getInstance()
-                .collection("items")
-                .orderBy("viewCount", Query.Direction.DESCENDING)
-                .limit(10)
-        }
-        val options = FirestoreRecyclerOptions.Builder<Item>()
-            .setQuery(query, Item::class.java)
-            .build()
-        adapter = object : FirestoreRecyclerAdapter<Item, ItemHolder>(options) {
-            override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-                return ItemHolder(
-                    LayoutInflater.from(parent.context).inflate(
-                        R.layout.item_row,
-                        parent,
-                        false
-                    )
-                )
-            }
-
-            override fun onBindViewHolder(holder: ItemHolder, position: Int, model: Item) {
-                model.id = snapshots.getSnapshot(position).id
-                holder.bindTo(model)
-                holder.itemView.setOnClickListener {
-                    itemClicked(model, position)
-                }
-            }
-        }
-
-        recycler.adapter = adapter
-        adapter.startListening()
-    }*/
-
     private fun itemClicked(model: Item, position: Int) {
         Log.d(TAG, "itemClicked : ${model.title} / $position");
         val intent = Intent(this, DetailActivity::class.java)
@@ -176,21 +129,20 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
             user_info.setText("Email: ${user.email} /  ${user.isEmailVerified}")
             verify_email.visibility = if (user.isEmailVerified) View.GONE else View.VISIBLE
         } else {
-            user_info.setText("Not login")
-            verify_email.visibility = View.GONE
+            /*user_info.setText("Not login")
+            verify_email.visibility = View.GONE*/
+            signIn()
         }
     }
 
     override fun onStart() {
         super.onStart()
         FirebaseAuth.getInstance().addAuthStateListener(this)
-//        adapter.startListening()
     }
 
     override fun onStop() {
         super.onStop()
         FirebaseAuth.getInstance().removeAuthStateListener(this)
-//        adapter.stopListening()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -206,31 +158,7 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
         return when (item.itemId) {
             R.id.action_settings -> true
             R.id.action_signin -> {
-                val whiteList = listOf<String>("tw", "hk", "cn", "au")
-                val myLayout = AuthMethodPickerLayout.Builder(R.layout.sign_up)
-                    .setEmailButtonId(R.id.signup_email)
-                    .setGoogleButtonId(R.id.signup_google)
-                    .setPhoneButtonId(R.id.signup_sms)
-                    .setFacebookButtonId(R.id.signup_facebook)
-                    .build()
-                startActivityForResult(AuthUI.getInstance()
-                    .createSignInIntentBuilder()
-                    .setAvailableProviders(Arrays.asList(
-                        AuthUI.IdpConfig.EmailBuilder().build(),
-                        AuthUI.IdpConfig.GoogleBuilder().build(),
-                        AuthUI.IdpConfig.FacebookBuilder().build(),
-                        AuthUI.IdpConfig.PhoneBuilder()
-                            .setWhitelistedCountries(whiteList)
-                            .setDefaultCountryIso("tw")
-                            .build()
-                    ))
-                    .setIsSmartLockEnabled(false)
-                    .setLogo(R.drawable.shop)
-                    .setTheme(R.style.SignUp)
-                    .setAuthMethodPickerLayout(myLayout)
-                    .build(),
-                    SI_REQUEST_CODE)
-//                startActivityForResult(Intent(this, SignInActivity::class.java), SI_REQUEST_CODE)
+                signIn()
                 true
             }
             R.id.action_signout -> {
@@ -239,5 +167,32 @@ class MainActivity : AppCompatActivity(), FirebaseAuth.AuthStateListener {
             }
             else -> super.onOptionsItemSelected(item)
         }
+    }
+
+    private fun signIn() {
+        val whiteList = listOf<String>("tw", "hk", "cn", "au")
+        val myLayout = AuthMethodPickerLayout.Builder(R.layout.sign_up)
+            .setEmailButtonId(R.id.signup_email)
+            .setGoogleButtonId(R.id.signup_google)
+            .setPhoneButtonId(R.id.signup_sms)
+            .setFacebookButtonId(R.id.signup_facebook)
+            .build()
+        startActivityForResult(AuthUI.getInstance()
+            .createSignInIntentBuilder()
+            .setAvailableProviders(Arrays.asList(
+                AuthUI.IdpConfig.EmailBuilder().build(),
+                AuthUI.IdpConfig.GoogleBuilder().build(),
+                AuthUI.IdpConfig.FacebookBuilder().build(),
+                AuthUI.IdpConfig.PhoneBuilder()
+                    .setWhitelistedCountries(whiteList)
+                    .setDefaultCountryIso("tw")
+                    .build()
+            ))
+            .setIsSmartLockEnabled(false)
+            .setLogo(R.drawable.shop)
+            .setTheme(R.style.SignUp)
+            .setAuthMethodPickerLayout(myLayout)
+            .build(),
+            SI_REQUEST_CODE)
     }
 }
